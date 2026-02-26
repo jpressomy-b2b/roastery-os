@@ -14,20 +14,19 @@ st.set_page_config(page_title="Jpresso Roastery OS", layout="wide")
 # --- FULL STEALTH CSS INJECTION ---
 st.markdown("""
     <style>
-    /* 1. Nuke the Header, Footer, and Main Menu */
+    /* 1. Nuke Header & Footer */
     #MainMenu {visibility: hidden !important;}
     header {visibility: hidden !important;}
     footer {visibility: hidden !important;}
     
-    /* 2. Nuke the Red Streamlit Logo and Green Status Buttons in bottom right */
+    /* 2. Target ALL possible variations of the Streamlit badges using Wildcards */
     .stAppDeployButton {display:none !important;}
-    [data-testid="stHeader"] {display:none !important;}
-    [data-testid="stToolbar"] {display:none !important;}
-    [data-testid="stDecoration"] {display:none !important;}
     [data-testid="stStatusWidget"] {display:none !important;}
     [data-testid="viewerBadge"] {display:none !important;}
     div[class^="viewerBadge"] {display:none !important;}
-    a[href^="https://streamlit.io"] {display:none !important;}
+    div[class^="styles_viewerBadge"] {display:none !important;}
+    div[class^="st-emotion-cache-"] > a[href*="streamlit.io"] {display:none !important;}
+    a[href*="streamlit.io"] {display:none !important;}
     
     /* 3. Your Master Stability CSS */
     .stApp { background-color: #fcfaff; }
@@ -661,5 +660,6 @@ with tab3:
             
         else:
             st.error("Please enter a Roaster Name and Training Bean to generate an evaluation.")
+
 
 
