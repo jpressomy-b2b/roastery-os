@@ -3,14 +3,15 @@ import pandas as pd
 import plotly.express as px
 from datetime import datetime
 import random
+import re
 import os
 import base64
 import streamlit.components.v1 as components 
 
-# --- v179.0 CRITICAL FIX: CONFIG MUST BE FIRST ---
+# --- v180.0 MASTER RULE: CONFIG FIRST ---
 st.set_page_config(page_title="Jpresso Roastery OS", layout="wide")
 
-# --- FULL STEALTH CSS INJECTION ---
+# --- v180.0 FULL STEALTH CSS ---
 st.markdown("""
     <style>
     #MainMenu {visibility: hidden;}
@@ -61,8 +62,8 @@ def get_base64_image(image_path):
     except Exception: pass
     return None
 
-st.title("🔥 Jpresso Roastery Intelligence v179.0")
-st.caption("Stability Anchor: Startup Error Fixed & All Features Restored")
+st.title("🔥 Jpresso Roastery Intelligence v180.0")
+st.caption("Indestructible Build: Full Logic Restoration & All Scaling Fixes")
 
 # --- PERSISTENT STATE ---
 if 'batch_history' not in st.session_state: st.session_state.batch_history = []
@@ -88,7 +89,7 @@ with st.sidebar:
 tab1, tab2, tab3 = st.tabs(["📦 Production Ledger", "📱 Brand Storyteller", "🎓 Auto-Evaluation Portal"])
 
 # ==========================================
-# TAB 1: PRODUCTION LEDGER
+# TAB 1: PRODUCTION LEDGER (FULL SENSORY RESTORED)
 # ==========================================
 with tab1:
     col_in, col_out = st.columns(2)
@@ -99,9 +100,10 @@ with tab1:
         with col_env2: amb_temp = st.text_input("Amb. Temp (°C)")
         with col_env3: humidity = st.text_input("Humidity (%)")
         st.markdown("---")
-        g_weight = st.number_input("Green Input (kg)", value=0.0, step=0.01)
-        r_weight = st.number_input("Roasted Output (kg)", value=0.0, step=0.01)
-        mode = st.radio("Mode", ["Single Origin", "Blend Architect"], index=0, horizontal=True)
+        q_grade = st.selectbox("Quality Standard", ["Specialty Grade", "Commercial Grade"], index=0)
+        g_weight = st.number_input("Total Green Input (kg)", value=0.0, step=0.01)
+        r_weight = st.number_input("Total Roasted Output (kg)", value=0.0, step=0.01)
+        mode = st.radio("Production Mode", ["Single Origin", "Blend Architect"], index=0, horizontal=True)
         blend_recipe_display = ""
         if mode == "Single Origin":
             sku_name = st.text_input("Bean Name / SKU")
@@ -112,8 +114,8 @@ with tab1:
             roast_level = st.selectbox("Roast Level", ["Light", "Med-Light", "Medium", "Med-Dark", "Dark"], index=2)
             blend_sum = []
             recipe_parts = []
-            for i in range(1, 4):
-                with st.expander(f"Origin {i}"):
+            for i in range(1, 5):
+                with st.expander(f"Component {i}"):
                     c_n = st.text_input(f"Origin Name", key=f"n{i}")
                     c_r = st.slider(f"Ratio (%)", 0, 100, 0, key=f"r{i}")
                     c_c = st.number_input(f"Cost (Per kg)", value=0.0, step=0.01, key=f"c{i}")
@@ -126,22 +128,22 @@ with tab1:
 
         st.markdown("---")
         st.markdown("### 🎡 9-Wheel Sensory Auditor")
-        family = st.selectbox("📥 Select Flavor Family", ["🍎 Fruity", "🌸 Floral", "🍯 Sweet", "🍫 Nutty/Cocoa", "🌶️ Spices", "🔥 Roasted", "🌿 Green/Veg", "🧪 Other", "🍷 Sour"])
+        family = st.selectbox("📥 Select Flavor Family", ["🍎 Fruity", "🌸 Floral", "🍯 Sweet", "🍫 Nutty/Cocoa", "🌶️ Spices", "🔥 Roasted", "🌿 Green/Vegetative", "🧪 Other/Defects", "🍷 Sour/Fermented"])
         wheel_map = {
-            "🍎 Fruity": [("Fruity", ""), ("Berry", "Fruity"), ("Blackberry", "Berry"), ("Raspberry", "Berry"), ("Blueberry", "Berry"), ("Strawberry", "Berry"), ("Dried Fruit", "Fruity"), ("Raisin", "Dried Fruit"), ("Prune", "Dried Fruit"), ("Citrus Fruit", "Fruity"), ("Grapefruit", "Citrus Fruit"), ("Orange", "Citrus Fruit"), ("Lemon", "Citrus Fruit"), ("Lime", "Citrus Fruit")],
-            "🌸 Floral": [("Floral", ""), ("Black Tea", "Floral"), ("Chamomile", "Floral"), ("Rose", "Floral"), ("Jasmine", "Floral")],
-            "🍯 Sweet": [("Sweet", ""), ("Brown Sugar", "Sweet"), ("Molasses", "Brown Sugar"), ("Maple Syrup", "Brown Sugar"), ("Caramelized", "Brown Sugar"), ("Honey", "Brown Sugar"), ("Vanilla", "Sweet"), ("Vanillin", "Sweet")],
-            "🍫 Nutty/Cocoa": [("Nutty/Cocoa", ""), ("Nutty", "Nutty/Cocoa"), ("Hazelnut", "Nutty"), ("Almond", "Nutty"), ("Cocoa", "Nutty/Cocoa"), ("Chocolate", "Cocoa"), ("Dark Chocolate", "Cocoa")],
-            "🌶️ Spices": [("Spices", ""), ("Pepper", "Spices"), ("Cinnamon", "Spices"), ("Clove", "Spices")],
-            "🔥 Roasted": [("Roasted", ""), ("Tobacco", "Roasted"), ("Burnt", "Roasted"), ("Smoky", "Burnt"), ("Cereal", "Roasted")],
-            "🌿 Green/Veg": [("Green/Veg", ""), ("Olive Oil", "Green/Veg"), ("Raw", "Green/Veg")],
-            "🍷 Sour": [("Sour", ""), ("Winey", "Sour"), ("Whiskey", "Sour"), ("Fermented", "Sour")],
-            "🧪 Other": [("Other", ""), ("Chemical", "Other"), ("Musty/Earthy", "Other")]
+            "🍎 Fruity": [("Fruity", ""), ("Berry", "Fruity"), ("Blackberry", "Berry"), ("Raspberry", "Berry"), ("Blueberry", "Berry"), ("Strawberry", "Berry"), ("Dried Fruit", "Fruity"), ("Raisin", "Dried Fruit"), ("Prune", "Dried Fruit"), ("Other Fruit", "Fruity"), ("Coconut", "Other Fruit"), ("Cherry", "Other Fruit"), ("Pomegranate", "Other Fruit"), ("Pineapple", "Other Fruit"), ("Grape", "Other Fruit"), ("Apple", "Other Fruit"), ("Peach", "Other Fruit"), ("Pear", "Other Fruit"), ("Mango", "Other Fruit"), ("Citrus Fruit", "Fruity"), ("Grapefruit", "Citrus Fruit"), ("Orange", "Citrus Fruit"), ("Lemon", "Citrus Fruit"), ("Lime", "Citrus Fruit")],
+            "🌸 Floral": [("Floral", ""), ("Black Tea", "Floral"), ("Floral Sub", "Floral"), ("Chamomile", "Floral Sub"), ("Rose", "Floral Sub"), ("Jasmine", "Floral Sub")],
+            "🍯 Sweet": [("Sweet", ""), ("Brown Sugar", "Sweet"), ("Molasses", "Brown Sugar"), ("Maple Syrup", "Brown Sugar"), ("Caramelized", "Brown Sugar"), ("Honey", "Brown Sugar"), ("Vanilla", "Sweet"), ("Vanillin", "Sweet"), ("Overall Sweet", "Sweet"), ("Sweet Aromatics", "Sweet")],
+            "🍫 Nutty/Cocoa": [("Nutty/Cocoa", ""), ("Nutty", "Nutty/Cocoa"), ("Peanuts", "Nutty"), ("Hazelnut", "Nutty"), ("Almond", "Nutty"), ("Cocoa", "Nutty/Cocoa"), ("Chocolate", "Cocoa"), ("Dark Chocolate", "Cocoa")],
+            "🌶️ Spices": [("Spices", ""), ("Pungent", "Spices"), ("Pepper", "Spices"), ("Brown Spice", "Spices"), ("Anise", "Brown Spice"), ("Nutmeg", "Brown Spice"), ("Cinnamon", "Brown Spice"), ("Clove", "Brown Spice")],
+            "🔥 Roasted": [("Roasted", ""), ("Pipe Tobacco", "Roasted"), ("Tobacco", "Roasted"), ("Burnt", "Roasted"), ("Acrid", "Burnt"), ("Ashy", "Burnt"), ("Smoky", "Burnt"), ("Brown Roast", "Burnt"), ("Cereal", "Roasted"), ("Grain", "Cereal"), ("Malt", "Cereal")],
+            "🌿 Green/Vegetative": [("Green/Vegetative", ""), ("Olive Oil", "Green/Vegetative"), ("Raw", "Green/Vegetative"), ("Green Sub", "Green/Vegetative"), ("Under-ripe", "Green Sub"), ("Peapod", "Green Sub"), ("Fresh", "Green Sub"), ("Dark Green", "Green Sub"), ("Vegetative", "Green Sub"), ("Hay-like", "Green Sub"), ("Herb-like", "Green Sub"), ("Beany", "Green/Vegetative")],
+            "🍷 Sour/Fermented": [("Sour/Fermented", ""), ("Sour", "Sour/Fermented"), ("Sour Aromatics", "Sour"), ("Acetic Acid", "Sour"), ("Butyric Acid", "Sour"), ("Isovaleric Acid", "Sour"), ("Citric Acid", "Sour"), ("Malic Acid", "Sour"), ("Alcohol/Fermented", "Sour/Fermented"), ("Winey", "Alcohol/Fermented"), ("Whiskey", "Alcohol/Fermented"), ("Fermented", "Alcohol/Fermented"), ("Overripe", "Alcohol/Fermented")],
+            "🧪 Other/Defects": [("Other", ""), ("Chemical", "Other"), ("Rubber", "Chemical"), ("Skunky", "Chemical"), ("Petroleum", "Chemical"), ("Medicinal", "Chemical"), ("Salty", "Chemical"), ("Bitter", "Chemical"), ("Papery/Musty", "Other"), ("Phenolic", "Papery/Musty"), ("Meaty Brothy", "Papery/Musty"), ("Animalic", "Papery/Musty"), ("Musty/Earthy", "Papery/Musty"), ("Musty/Dusty", "Papery/Musty"), ("Moldy/Damp", "Papery/Musty"), ("Woody", "Papery/Musty"), ("Papery", "Papery/Musty"), ("Cardboard", "Papery/Musty"), ("Stale", "Papery/Musty")]
         }
         selected_data = wheel_map.get(family, [("Other", "")])
         df_wheel = pd.DataFrame(selected_data, columns=["Note", "Parent"])
         st.plotly_chart(px.sunburst(df_wheel, names='Note', parents='Parent', height=400), use_container_width=True)
-        picks = st.multiselect("Pick Sensory Notes", list(df_wheel['Note']), key=f"ms_{st.session_state.ms_key}")
+        picks = st.multiselect("Finalize Sensory", list(df_wheel['Note']), key=f"ms_{st.session_state.ms_key}")
         for p in picks: st.session_state.master_notes.add(p)
         st.info(", ".join(st.session_state.master_notes) if st.session_state.master_notes else "No notes selected")
         if st.button("🗑️ Clear Map"):
@@ -156,7 +158,6 @@ with tab1:
         with col_t[2]: m_drop = st.number_input("Drop Time (m)")
         agtron = st.number_input("Agtron Score", value=0)
         cupping_score = st.slider("Cupping Score (SCA)", 0.0, 100.0, 80.0, 0.25)
-        batch_notes = st.text_area("📝 General Batch Notes")
         process_btn = st.button("🚀 FINALIZE BATCH REPORT", use_container_width=True)
 
     with col_out:
@@ -166,18 +167,18 @@ with tab1:
             w_loss = ((g_weight - r_weight) / g_weight * 100)
             t_cost = ((g_weight * g_cost) / r_weight) + 1.25 
             b_id = f"LOT-{datetime.now().strftime('%m%d%H%M')}"
-            st.session_state.last_analysis = {"batch_id": b_id, "operator": operator_name, "env": f"{amb_temp}°C / {humidity}%", "sku": sku_name, "dtr": dtr, "w_loss": w_loss, "cost": t_cost, "cupping": cupping_score, "flavors": list(st.session_state.master_notes), "notes": batch_notes}
+            st.session_state.last_analysis = {"batch_id": b_id, "operator": operator_name, "env": f"{amb_temp}°C / {humidity}%", "sku": sku_name, "dtr": dtr, "w_loss": w_loss, "cost": t_cost, "cupping": cupping_score, "flavors": list(st.session_state.master_notes)}
             st.session_state.batch_history.append({"Batch ID": b_id, "SKU": sku_name, "DTR (%)": round(dtr, 1), "Cost/kg": round(t_cost, 2)})
             st.rerun()
 
         if st.session_state.last_analysis:
             ana = st.session_state.last_analysis
             st.markdown(f'<div class="metric-row"><div class="metric-item"><strong>DTR</strong><br>{ana["dtr"]:.1f}%</div><div class="metric-item"><strong>Loss</strong><br>{ana["w_loss"]:.1f}%</div><div class="metric-item"><strong>Cost</strong><br>{ana["cost"]:.2f}</div></div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="spec-box"><h4>🌟 JPRESSO PRODUCTION SPEC</h4><p><strong>Batch:</strong> {ana["batch_id"]} | <strong>SKU:</strong> {ana["sku"]}</p><p><strong>Sensory:</strong> {", ".join(ana["flavors"])}</p><p><strong>SCA Score:</strong> {ana["cupping"]:.2f}</p></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="spec-box"><h4>🌟 JPRESSO PRODUCTION SPEC</h4><p><strong>Batch:</strong> {ana["batch_id"]} | <strong>Operator:</strong> {ana["operator"]}</p><hr><p><strong>SKU:</strong> {ana["sku"]}</p><p><strong>SCA:</strong> {ana["cupping"]:.2f}</p><p><strong>Sensory:</strong> {", ".join(ana["flavors"])}</p></div>', unsafe_allow_html=True)
             st.dataframe(pd.DataFrame(st.session_state.batch_history), use_container_width=True)
 
 # ==========================================
-# TAB 2: BRAND STORYTELLER (RESTORED DROPDOWNS)
+# TAB 2: BRAND STORYTELLER (FULL ENVIRONMENTS RESTORED)
 # ==========================================
 with tab2:
     st.markdown('<h2 class="section-header">📱 Video Prompt Engine</h2>', unsafe_allow_html=True)
@@ -190,14 +191,14 @@ with tab2:
         tone = st.selectbox("Storytelling Tone", ["The Roasting Scientist (Technical, Precision, Data-Driven)", "The Artistic Craftsman (Creative, Intuitive, Masterful)", "The Origin Explorer (Nature, Ethical, Farm-to-Cup)", "The Rugged Explorer (Wild, Bold, Uncharted)"])
     
     if st.button("✨ GENERATE CONTENT", use_container_width=True):
-        cam = ["Macro shot", "Slow-mo tracking", "Handheld pan"]
-        visuals = {"The Roastery Floor (Classic)": ["green beans pouring into hopper", "blue flame igniting"], "Rugged Wilderness (Adventure)": ["explorer with mug", "campfire sparks"]}
-        v_list = visuals.get(scene, ["cinematic coffee prep", "steaming cup of espresso"])
-        final_script = f"HOOK\n🎥 Video Prompt: {random.choice(cam)}, {random.choice(v_list)}, {mood} lighting, 8k.\n🎤 Voiceover: 'Precision is our only metric.'\n\nPROCESS\n🎥 Video Prompt: Cinematic depth, {random.choice(v_list)}, 8k."
+        cam = ["Macro shot", "Slow-mo tracking shot", "Handheld pan"]
+        visuals = {"The Roastery Floor (Classic)": ["green beans pouring into hopper", "blue flame igniting"], "Rugged Wilderness (Adventure)": ["explorer holding mug on peak", "campfire sparks in dark forest"], "High-Speed Racing (Adrenaline)": ["race car drifting leaving bean trail", "engine glowing with heat"]}
+        v_list = visuals.get(scene, ["cinematic coffee preparation", "pouring golden crema"])
+        final_script = f"HOOK\n🎥 Video Prompt: {random.choice(cam)}, {random.choice(v_list)}, {mood} lighting, 8k.\n🎤 Voiceover: 'Precision is our only metric.'\n\nPROCESS\n🎥 Video Prompt: Cinematic depth of field, {random.choice(v_list)}, 8k."
         st.code(final_script, language="text")
 
 # ==========================================
-# TAB 3: EVALUATION PORTAL (A4 PRINT FIT)
+# TAB 3: AUTO-EVALUATION PORTAL (A4 PRINT FIT RESTORED)
 # ==========================================
 with tab3:
     st.markdown('<h2 class="section-header">🎓 Auto-Evaluation Portal</h2>', unsafe_allow_html=True)
@@ -210,18 +211,18 @@ with tab3:
         st_dtr = st.number_input("Result DTR (%)", value=15.0)
 
     if st.button("🏅 Generate Certificate", use_container_width=True) and st_name and t_bean:
-        logo_b64 = get_base_image("Jpresso Gold Transparent.png")
+        logo_b64 = get_base64_image("Jpresso Gold Transparent.png")
         logo_html = f'<img src="data:image/png;base64,{logo_b64}" width="160">' if logo_b64 else '<h1>BIG JPRESSO</h1>'
         
         iframe_html = f"""<!DOCTYPE html><html><head><style>
         @page {{ size: A4 portrait; margin: 0; }}
         body {{ font-family: sans-serif; margin: 0; padding: 0; background: #fcfaff; print-color-adjust: exact; }}
         .cert-container {{ width: 210mm; height: 297mm; max-height: 297mm; margin: 0 auto; background: #fff; padding: 10mm; box-sizing: border-box; display:flex; flex-direction:column; overflow: hidden; }}
-        .border-outer {{ border: 8px solid #2b1d42; height: 100%; padding: 5mm; flex-grow:1; display:flex; flex-direction:column; box-sizing: border-box; }}
+        .border-outer {{ border: 8px solid #2b1d42; height: 100%; padding: 5mm; display:flex; flex-direction:column; box-sizing: border-box; }}
         .border-inner {{ border: 2px solid #d4af37; height: 100%; padding: 15mm; display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; box-sizing: border-box; }}
         </style></head><body>
         <div class="cert-container"><div class="border-outer"><div class="border-inner">
-            <div>{logo_html}<h1 style="color:#2b1d42; font-size:32px; margin:10px 0;">ACADEMY EVALUATION</h1><h3 style="letter-spacing:3px; font-size:14px;">CERTIFICATE OF ANALYSIS</h3></div>
+            <div>{logo_html}<h1 style="color:#2b1d42; font-size:32px; margin:5px 0;">ACADEMY EVALUATION</h1><h3 style="letter-spacing:3px; font-size:14px;">CERTIFICATE OF ANALYSIS</h3></div>
             <div><p style="font-size:14px;">This formally certifies the technical audit of</p><h2 style="font-size:28px; border-bottom:2px solid #d4af37; display:inline-block; padding:0 15px; margin:10px 0;">{st_name.upper()}</h2><p style="font-size:14px;">Completed roast targeting {t_prof} utilizing {t_bean}.</p></div>
             <div style="background:#fcfaff; padding:15px; border-left:4px solid #d4af37; text-align:left; width:85%;"><p style="font-size:14px; margin:5px 0;"><strong>Result DTR:</strong> {st_dtr}%</p></div>
             <div style="width:100%; display:flex; justify-content:space-around; align-items:flex-end;">
