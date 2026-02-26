@@ -14,11 +14,18 @@ st.set_page_config(page_title="Jpresso Roastery OS", layout="wide")
 # --- FULL STEALTH CSS INJECTION ---
 st.markdown("""
     <style>
+    /* Hide Main Menu & Header */
     #MainMenu {visibility: hidden;}
     header {visibility: hidden;}
     footer {visibility: hidden;}
-    .stAppDeployButton {display:none;}
-    [data-testid="stHeader"] {display:none;}
+    
+    /* Nuke Streamlit Cloud Badges & Toolbars */
+    .stAppDeployButton {display:none !important;}
+    [data-testid="stHeader"] {display:none !important;}
+    [data-testid="stToolbar"] {display:none !important;}
+    [data-testid="stDecoration"] {display:none !important;}
+    div[data-testid="viewerBadge"] {display: none !important;}
+    .viewerBadge_container__1QSob {display: none !important;}
     </style>
     """, unsafe_allow_html=True)
 
@@ -635,3 +642,4 @@ with tab3:
             
         else:
             st.error("Please enter a Roaster Name and Training Bean to generate an evaluation.")
+
