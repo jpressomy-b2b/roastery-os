@@ -14,21 +14,40 @@ st.set_page_config(page_title="Jpresso Roastery OS", layout="wide")
 # --- FULL STEALTH CSS INJECTION ---
 st.markdown("""
     <style>
-    /* Hide Main Menu & Header */
-    #MainMenu {visibility: hidden;}
-    header {visibility: hidden;}
-    footer {visibility: hidden;}
+    /* 1. Nuke the Header, Footer, and Main Menu */
+    #MainMenu {visibility: hidden !important;}
+    header {visibility: hidden !important;}
+    footer {visibility: hidden !important;}
     
-    /* Nuke Streamlit Cloud Badges & Toolbars */
+    /* 2. Nuke the Red Streamlit Logo and Green Status Buttons in bottom right */
     .stAppDeployButton {display:none !important;}
     [data-testid="stHeader"] {display:none !important;}
     [data-testid="stToolbar"] {display:none !important;}
     [data-testid="stDecoration"] {display:none !important;}
-    div[data-testid="viewerBadge"] {display: none !important;}
-    .viewerBadge_container__1QSob {display: none !important;}
+    [data-testid="stStatusWidget"] {display:none !important;}
+    [data-testid="viewerBadge"] {display:none !important;}
+    div[class^="viewerBadge"] {display:none !important;}
+    a[href^="https://streamlit.io"] {display:none !important;}
+    
+    /* 3. Your Master Stability CSS */
+    .stApp { background-color: #fcfaff; }
+    .section-header { color: #6a1b9a; border-bottom: 2px solid #ffd700; padding-bottom: 5px; margin-bottom: 20px; font-weight: 700; }
+    [data-testid="column"]:nth-of-type(2) {
+        border-left: 2px solid #6a1b9a;
+        padding-left: 40px !important;
+        padding-top: 0px !important; 
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start !important; 
+    }
+    .metric-row { display: flex; justify-content: space-around; align-items: center; background: white; padding: 15px; border-radius: 12px; border: 1px solid #6a1b9a; margin-bottom: 20px; }
+    .metric-item { text-align: center; flex: 1; border-right: 1px solid #eee; }
+    .metric-item:last-child { border-right: none; }
+    .cost-card { background-color: #fdf2f2; border: 1px solid #feb2b2; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+    .spec-box { background-color: #ffffff; border-left: 5px solid #6a1b9a; padding: 20px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 15px;}
+    .prompt-box { background-color: #f4f0ff; border-left: 5px solid #6a1b9a; padding: 20px; border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 14px; white-space: pre-wrap; line-height: 1.5; color: #333; border: 1px solid #d1c4e9; }
     </style>
     """, unsafe_allow_html=True)
-
 # --- SECURITY: MASTER PASSWORD LOCK ---
 def check_password():
     if "password_correct" not in st.session_state:
@@ -642,4 +661,5 @@ with tab3:
             
         else:
             st.error("Please enter a Roaster Name and Training Bean to generate an evaluation.")
+
 
