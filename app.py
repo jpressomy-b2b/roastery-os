@@ -75,12 +75,16 @@ def get_base64_image(image_path):
         pass
     return None
 
-# --- v182.0 PREMIUM UI/UX UPGRADE CSS ---
+# --- v183.0 PREMIUM UI/UX UPGRADE CSS ---
 st.markdown("""
     <style>
+    /* FORCE DARK ESPRESSO BACKGROUND & LIGHT TEXT */
+    .stApp { background-color: #121212 !important; }
+    h1, h2, h3, h4, h5, h6, p, label, span { color: #f5f5f5 !important; }
+    
     /* Sleek typography and spacing */
     .section-header { 
-        color: #d4af37; 
+        color: #d4af37 !important; 
         border-bottom: 1px solid #333; 
         padding-bottom: 10px; 
         margin-bottom: 25px; 
@@ -107,35 +111,35 @@ st.markdown("""
         margin-bottom: 25px; 
     }
     .metric-item { 
-        background: linear-gradient(145deg, #1e1e1e, #121212);
-        border: 1px solid #333;
+        background: linear-gradient(145deg, #1e1e1e, #121212) !important;
+        border: 1px solid #333 !important;
         padding: 20px; 
         border-radius: 12px; 
         text-align: center; 
         flex: 1; 
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         transition: transform 0.2s ease, border-color 0.2s ease;
     }
     .metric-item:hover {
         transform: translateY(-5px);
-        border-color: #d4af37;
+        border-color: #d4af37 !important;
     }
-    .metric-item strong { color: #888; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
-    .metric-item { font-size: 1.5rem; color: #fff; font-weight: bold; margin-top: 5px;}
+    .metric-item strong { color: #888 !important; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
+    .metric-item { font-size: 1.5rem !important; color: #d4af37 !important; font-weight: bold; margin-top: 5px;}
     
     /* Sleek Spec Box */
     .spec-box { 
-        background-color: #1e1e1e; 
-        border-left: 4px solid #d4af37; 
+        background-color: #1e1e1e !important; 
+        border-left: 4px solid #d4af37 !important; 
         padding: 25px; 
         border-radius: 6px; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5); 
         margin-bottom: 20px;
     }
     .cost-card { 
-        background: rgba(212, 175, 55, 0.1); 
-        border: 1px solid #d4af37; 
-        color: #d4af37; 
+        background: rgba(212, 175, 55, 0.1) !important; 
+        border: 1px solid #d4af37 !important; 
+        color: #d4af37 !important; 
         padding: 15px; 
         border-radius: 8px; 
         margin-bottom: 15px; 
@@ -144,7 +148,6 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
-
 st.title("🔥 Jpresso Roastery Intelligence v181.0")
 st.caption("The True Master Merge: Complete Features + A4 Scaling Lock + Password")
 
@@ -704,6 +707,7 @@ with tab3:
             
         else:
             st.error("Please enter a Roaster Name and Training Bean to generate an evaluation.")
+
 
 
 
