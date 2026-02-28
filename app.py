@@ -130,14 +130,20 @@ def get_base64_image(image_path):
         pass
     return None
 
-st.title("🔥 Jpresso Roastery Intelligence v188.0")
-st.caption("The Royal Edition: Error Free, Optional Cupping Guide & A4 Scaling")
+st.title("🔥 Jpresso Roastery Intelligence v189.0")
+st.caption("The Royal Edition: Dynamic Academy Grading, PIN Lock & Flawless A4 Scaling")
 
 # --- PERSISTENT STATE LOCK ---
 if 'batch_history' not in st.session_state: st.session_state.batch_history = []
 if 'last_analysis' not in st.session_state: st.session_state.last_analysis = None
 if 'master_notes' not in st.session_state: st.session_state.master_notes = set()
 if 'ms_key' not in st.session_state: st.session_state.ms_key = 0 
+
+# Academy Session States
+if 'eval_done' not in st.session_state: st.session_state.eval_done = False
+if 'eval_score' not in st.session_state: st.session_state.eval_score = 0
+if 'eval_critique' not in st.session_state: st.session_state.eval_critique = ""
+if 'eval_passed' not in st.session_state: st.session_state.eval_passed = False
 
 # --- SIDEBAR: PRODUCTION AUDITOR ---
 with st.sidebar:
@@ -499,12 +505,6 @@ CALL TO ACTION
 with tab3:
     st.markdown('<h2 class="section-header">🎓 Objective Auto-Evaluation Portal</h2>', unsafe_allow_html=True)
     st.write("Submit your roasting metrics for AI evaluation. Only passing grades will unlock the Certificate portal.")
-    
-    # Session State Memory for the Exam
-    if 'eval_done' not in st.session_state: st.session_state.eval_done = False
-    if 'eval_score' not in st.session_state: st.session_state.eval_score = 0
-    if 'eval_critique' not in st.session_state: st.session_state.eval_critique = ""
-    if 'eval_passed' not in st.session_state: st.session_state.eval_passed = False
 
     col_acad1, col_acad2 = st.columns(2)
     with col_acad1:
@@ -516,11 +516,11 @@ with tab3:
         target_profile = st.selectbox("Target Roast Profile", ["Light (Filter - 12-16% DTR)", "Medium (Omni - 18-22% DTR)", "Dark (Espresso - 23-27% DTR)"])
         student_dtr = st.number_input("Achieved DTR (%)", value=15.0, step=0.5)
 
-   if st.button("🔍 EVALUATE ROAST", use_container_width=True):
+    if st.button("🔍 EVALUATE ROAST", use_container_width=True):
         critique = ""
         gen_score = 0
         
-        # --- NEW DYNAMIC GRADING MATRIX ---
+        # --- DYNAMIC GRADING MATRIX ---
         if "Light" in target_profile:
             center = 14.0
             if student_dtr < 12.0: 
@@ -560,10 +560,11 @@ with tab3:
         # Save to memory
         st.session_state.eval_score = gen_score
         st.session_state.eval_critique = critique
-        # A score of 90 or above is considered a PASS
+        # Score of 90 or above is a PASS
         st.session_state.eval_passed = True if gen_score >= 90 else False
         st.session_state.eval_done = True
         st.rerun()
+
     # --- DISPLAY RESULTS AFTER BUTTON CLICK ---
     if st.session_state.eval_done:
         st.markdown("---")
@@ -579,7 +580,7 @@ with tab3:
             st.success(f"🎉 **EXCELLENT! Target Achieved.** (Score: {st.session_state.eval_score}/100)")
             st.info(f"**🤖 AI Critique:** {st.session_state.eval_critique}")
             
-            # --- EXAMINER PIN LOCK (Only appears if Passed!) ---
+            # --- EXAMINER PIN LOCK ---
             st.markdown("---")
             st.markdown('<h3 style="color:#DAB07B;">🔐 Official Examiner Authorization</h3>', unsafe_allow_html=True)
             st.write("Student has passed! Certificate printing requires Master Roaster authorization.")
@@ -665,4 +666,3 @@ with tab3:
                         st.error("Please enter a Roaster Name and Training Bean to generate an evaluation.")
             elif examiner_pin != "":
                 st.error("❌ Invalid PIN. You cannot print this document.")
-
