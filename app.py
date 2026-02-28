@@ -75,15 +75,23 @@ def get_base64_image(image_path):
         pass
     return None
 
-# --- v171.0 MASTER STABILITY CSS ---
+# --- v182.0 PREMIUM UI/UX UPGRADE CSS ---
 st.markdown("""
     <style>
-    .stApp { background-color: #fcfaff; }
-    .section-header { color: #6a1b9a; border-bottom: 2px solid #ffd700; padding-bottom: 5px; margin-bottom: 20px; font-weight: 700; }
+    /* Sleek typography and spacing */
+    .section-header { 
+        color: #d4af37; 
+        border-bottom: 1px solid #333; 
+        padding-bottom: 10px; 
+        margin-bottom: 25px; 
+        font-weight: 300; 
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
     
-    /* v5.8 LAYOUT LOCK: Absolute Right Column Anchor */
+    /* v5.8 LAYOUT LOCK */
     [data-testid="column"]:nth-of-type(2) {
-        border-left: 2px solid #6a1b9a;
+        border-left: 1px solid #333;
         padding-left: 40px !important;
         padding-top: 0px !important; 
         display: flex;
@@ -91,13 +99,49 @@ st.markdown("""
         justify-content: flex-start !important; 
     }
     
-    .metric-row { display: flex; justify-content: space-around; align-items: center; background: white; padding: 15px; border-radius: 12px; border: 1px solid #6a1b9a; margin-bottom: 20px; }
-    .metric-item { text-align: center; flex: 1; border-right: 1px solid #eee; }
-    .metric-item:last-child { border-right: none; }
+    /* Premium Floating Metric Cards */
+    .metric-row { 
+        display: flex; 
+        justify-content: space-between; 
+        gap: 15px; 
+        margin-bottom: 25px; 
+    }
+    .metric-item { 
+        background: linear-gradient(145deg, #1e1e1e, #121212);
+        border: 1px solid #333;
+        padding: 20px; 
+        border-radius: 12px; 
+        text-align: center; 
+        flex: 1; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .metric-item:hover {
+        transform: translateY(-5px);
+        border-color: #d4af37;
+    }
+    .metric-item strong { color: #888; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
+    .metric-item { font-size: 1.5rem; color: #fff; font-weight: bold; margin-top: 5px;}
     
-    .cost-card { background-color: #fdf2f2; border: 1px solid #feb2b2; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-    .spec-box { background-color: #ffffff; border-left: 5px solid #6a1b9a; padding: 20px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 15px;}
-    .prompt-box { background-color: #f4f0ff; border-left: 5px solid #6a1b9a; padding: 20px; border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 14px; white-space: pre-wrap; line-height: 1.5; color: #333; border: 1px solid #d1c4e9; }
+    /* Sleek Spec Box */
+    .spec-box { 
+        background-color: #1e1e1e; 
+        border-left: 4px solid #d4af37; 
+        padding: 25px; 
+        border-radius: 6px; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        margin-bottom: 20px;
+    }
+    .cost-card { 
+        background: rgba(212, 175, 55, 0.1); 
+        border: 1px solid #d4af37; 
+        color: #d4af37; 
+        padding: 15px; 
+        border-radius: 8px; 
+        margin-bottom: 15px; 
+        text-align: center;
+        font-weight: bold;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -660,6 +704,7 @@ with tab3:
             
         else:
             st.error("Please enter a Roaster Name and Training Bean to generate an evaluation.")
+
 
 
 
