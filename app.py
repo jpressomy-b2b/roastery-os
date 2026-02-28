@@ -516,41 +516,46 @@ with tab3:
         target_profile = st.selectbox("Target Roast Profile", ["Light (Filter - 12-16% DTR)", "Medium (Omni - 18-22% DTR)", "Dark (Espresso - 23-27% DTR)"])
         student_dtr = st.number_input("Achieved DTR (%)", value=15.0, step=0.5)
 
-    if st.button("🔍 EVALUATE ROAST", use_container_width=True):
+   if st.button("🔍 EVALUATE ROAST", use_container_width=True):
         critique = ""
         gen_score = 0
         
-        # AI Logic Matrix
+        # --- NEW DYNAMIC GRADING MATRIX ---
         if "Light" in target_profile:
-            if student_dtr < 12: 
+            center = 14.0
+            if student_dtr < 12.0: 
                 critique = "DTR is too short. The roast risks underdeveloped, grassy, and highly astringent notes. Recommend lowering heat application slightly approaching First Crack to extend the development phase."
-                gen_score = 75
-            elif 12 <= student_dtr <= 16: 
+                gen_score = int(max(0, 90 - ((12.0 - student_dtr) * 10)))
+            elif 12.0 <= student_dtr <= 16.0: 
                 critique = "Excellent technical precision. The DTR is locked perfectly in the optimal range for a bright, floral, and sweet Light roast. Ideal heat management demonstrated during the crucial development phase."
-                gen_score = 95
+                gen_score = int(100 - (abs(center - student_dtr) * 5))
             else: 
                 critique = "DTR exceeded the Light target threshold. The profile has shifted into medium territory, likely masking delicate acidity with heavy caramelization. Recommend dropping earlier to preserve origin character."
-                gen_score = 82
+                gen_score = int(max(0, 90 - ((student_dtr - 16.0) * 10)))
+                
         elif "Medium" in target_profile:
-            if student_dtr < 18: 
+            center = 20.0
+            if student_dtr < 18.0: 
                 critique = "DTR is running too fast for a Medium target. The acidity may be too sharp and unbalanced for espresso applications. Extend development time by slightly reducing gas pressure earlier in the roast."
-                gen_score = 80
-            elif 18 <= student_dtr <= 22: 
+                gen_score = int(max(0, 90 - ((18.0 - student_dtr) * 10)))
+            elif 18.0 <= student_dtr <= 22.0: 
                 critique = "Perfect Medium development. The achieved DTR indicates a highly balanced cup with rich polymerized sugars and tamed acidity. Highly suitable for professional Omni or Espresso applications."
-                gen_score = 96
+                gen_score = int(100 - (abs(center - student_dtr) * 5))
             else: 
                 critique = "DTR is running dangerously long. The roast risks flat, baked notes and a total loss of vibrant origin character. Increase airflow or execute the drop earlier to maintain cup structure."
-                gen_score = 80
-        else: 
-            if student_dtr < 23: 
+                gen_score = int(max(0, 90 - ((student_dtr - 22.0) * 10)))
+                
+        else: # Dark Target
+            center = 25.0
+            if student_dtr < 23.0: 
                 critique = "Development is too fast for a Dark target, risking a severe sour-bitter imbalance. Stretch the development phase longer to fully polymerize the sugars and build heavy mouthfeel."
-                gen_score = 78
-            elif 23 <= student_dtr <= 27: 
+                gen_score = int(max(0, 90 - ((23.0 - student_dtr) * 10)))
+            elif 23.0 <= student_dtr <= 27.0: 
                 critique = "Optimal Dark profile achieved. The extended DTR ensures low acidity, heavy body, and rich chocolate/roast notes without tipping the bean temperature into aggressive ashiness."
-                gen_score = 94
+                gen_score = int(100 - (abs(center - student_dtr) * 5))
             else: 
                 critique = "DTR is aggressively high. Severe risk of burnt, ashy notes and heavy oil exudation upon cooling. Cut heat much earlier to prevent thermal runaway in the drum."
-                gen_score = 70
+                gen_score = int(max(0, 90 - ((student_dtr - 27.0) * 10)))
 
         # Save to memory
         st.session_state.eval_score = gen_score
@@ -559,7 +564,6 @@ with tab3:
         st.session_state.eval_passed = True if gen_score >= 90 else False
         st.session_state.eval_done = True
         st.rerun()
-
     # --- DISPLAY RESULTS AFTER BUTTON CLICK ---
     if st.session_state.eval_done:
         st.markdown("---")
@@ -661,3 +665,4 @@ with tab3:
                         st.error("Please enter a Roaster Name and Training Bean to generate an evaluation.")
             elif examiner_pin != "":
                 st.error("❌ Invalid PIN. You cannot print this document.")
+
