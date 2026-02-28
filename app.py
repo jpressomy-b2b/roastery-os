@@ -11,7 +11,7 @@ import streamlit.components.v1 as components
 # --- MUST BE FIRST ---
 st.set_page_config(page_title="Jpresso Roastery OS", layout="wide")
 
-# --- FULL STEALTH & DARK UI CSS INJECTION ---
+# --- FULL STEALTH & EXACT JPRESSO BRAND CSS INJECTION ---
 st.markdown("""
     <style>
     /* 1. Nuke Header & Footer */
@@ -19,7 +19,7 @@ st.markdown("""
     header {visibility: hidden !important;}
     footer {visibility: hidden !important;}
     
-    /* 2. Target ALL possible variations of the Streamlit badges using Wildcards */
+    /* 2. Target ALL possible variations of the Streamlit badges */
     .stAppDeployButton {display:none !important;}
     [data-testid="stStatusWidget"] {display:none !important;}
     [data-testid="viewerBadge"] {display:none !important;}
@@ -28,20 +28,20 @@ st.markdown("""
     div[class^="st-emotion-cache-"] > a[href*="streamlit.io"] {display:none !important;}
     a[href*="streamlit.io"] {display:none !important;}
     
-    /* 3. FORCE DARK ESPRESSO BACKGROUND ON ALL LAYERS */
+    /* 3. EXACT BRAND BACKGROUND (Royal Purple) */
     html, body, [data-testid="stAppViewContainer"], .main, .stApp {
-        background-color: #121212 !important;
+        background-color: rgb(52, 22, 69) !important; 
     }
     
-    /* 4. Force all text to be light */
+    /* 4. Force all base text to be light/snow white */
     h1, h2, h3, h4, h5, p, span, label, div {
-        color: #f5f5f5 !important;
+        color: #fcfaff !important; 
     }
 
-    /* 5. Sleek typography and spacing */
+    /* 5. Sleek typography and spacing using JPRESSO GOLD */
     .section-header { 
-        color: #d4af37 !important; 
-        border-bottom: 1px solid #333 !important; 
+        color: rgb(218, 176, 123) !important; 
+        border-bottom: 2px solid rgb(218, 176, 123) !important; 
         padding-bottom: 10px !important; 
         margin-bottom: 25px !important; 
         font-weight: 300 !important; 
@@ -51,7 +51,7 @@ st.markdown("""
     
     /* 6. v5.8 LAYOUT LOCK */
     [data-testid="column"]:nth-of-type(2) {
-        border-left: 1px solid #333 !important;
+        border-left: 2px solid rgb(218, 176, 123) !important;
         padding-left: 40px !important;
         padding-top: 0px !important; 
         display: flex;
@@ -67,35 +67,35 @@ st.markdown("""
         margin-bottom: 25px; 
     }
     .metric-item { 
-        background: linear-gradient(145deg, #1e1e1e, #121212) !important;
-        border: 1px solid #333 !important;
+        background: rgba(255, 255, 255, 0.05) !important; /* Elegant glassy transparency over the purple */
+        border: 1px solid rgba(218, 176, 123, 0.3) !important; /* Subtle Gold Border */
         padding: 20px !important; 
         border-radius: 12px !important; 
         text-align: center !important; 
         flex: 1 !important; 
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
         transition: transform 0.2s ease, border-color 0.2s ease !important;
     }
     .metric-item:hover {
         transform: translateY(-5px) !important;
-        border-color: #d4af37 !important;
+        border-color: rgb(218, 176, 123) !important; /* Solid Gold on Hover */
+        background: rgba(218, 176, 123, 0.08) !important;
     }
-    .metric-item strong { color: #888 !important; font-size: 0.9rem !important; text-transform: uppercase !important; letter-spacing: 1px !important;}
-    .metric-item div { font-size: 1.5rem !important; color: #d4af37 !important; font-weight: bold !important; margin-top: 5px !important;}
+    .metric-item strong { color: rgb(218, 176, 123) !important; font-size: 0.9rem !important; text-transform: uppercase !important; letter-spacing: 1px !important;}
+    .metric-item div { font-size: 1.6rem !important; color: #fcfaff !important; font-weight: bold !important; margin-top: 5px !important;}
     
     /* 8. Sleek Spec Box */
     .spec-box { 
-        background-color: #1e1e1e !important; 
-        border-left: 4px solid #d4af37 !important; 
+        background-color: rgba(0, 0, 0, 0.2) !important; /* Creates a darker inset box against the purple */
+        border-left: 5px solid rgb(218, 176, 123) !important; 
         padding: 25px !important; 
         border-radius: 6px !important; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important; 
         margin-bottom: 20px !important;
     }
     .cost-card { 
-        background: rgba(212, 175, 55, 0.1) !important; 
-        border: 1px solid #d4af37 !important; 
-        color: #d4af37 !important; 
+        background: rgba(218, 176, 123, 0.1) !important; 
+        border: 1px solid rgb(218, 176, 123) !important; 
+        color: rgb(218, 176, 123) !important; 
         padding: 15px !important; 
         border-radius: 8px !important; 
         margin-bottom: 15px !important; 
@@ -770,6 +770,7 @@ with tab3:
             
         else:
             st.error("Please enter a Roaster Name and Training Bean to generate an evaluation.")
+
 
 
 
