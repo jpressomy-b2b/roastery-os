@@ -11,7 +11,7 @@ import streamlit.components.v1 as components
 # --- MUST BE FIRST ---
 st.set_page_config(page_title="Jpresso Roastery OS", layout="wide")
 
-# --- FULL STEALTH CSS INJECTION ---
+# --- FULL STEALTH & DARK UI CSS INJECTION ---
 st.markdown("""
     <style>
     /* 1. Nuke Header & Footer */
@@ -28,23 +28,80 @@ st.markdown("""
     div[class^="st-emotion-cache-"] > a[href*="streamlit.io"] {display:none !important;}
     a[href*="streamlit.io"] {display:none !important;}
     
-    /* 3. Your Master Stability CSS */
-    .stApp { background-color: #fcfaff; }
-    .section-header { color: #6a1b9a; border-bottom: 2px solid #ffd700; padding-bottom: 5px; margin-bottom: 20px; font-weight: 700; }
+    /* 3. FORCE DARK ESPRESSO BACKGROUND ON ALL LAYERS */
+    html, body, [data-testid="stAppViewContainer"], .main, .stApp {
+        background-color: #121212 !important;
+    }
+    
+    /* 4. Force all text to be light */
+    h1, h2, h3, h4, h5, p, span, label, div {
+        color: #f5f5f5 !important;
+    }
+
+    /* 5. Sleek typography and spacing */
+    .section-header { 
+        color: #d4af37 !important; 
+        border-bottom: 1px solid #333 !important; 
+        padding-bottom: 10px !important; 
+        margin-bottom: 25px !important; 
+        font-weight: 300 !important; 
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+    }
+    
+    /* 6. v5.8 LAYOUT LOCK */
     [data-testid="column"]:nth-of-type(2) {
-        border-left: 2px solid #6a1b9a;
+        border-left: 1px solid #333 !important;
         padding-left: 40px !important;
         padding-top: 0px !important; 
         display: flex;
         flex-direction: column;
         justify-content: flex-start !important; 
     }
-    .metric-row { display: flex; justify-content: space-around; align-items: center; background: white; padding: 15px; border-radius: 12px; border: 1px solid #6a1b9a; margin-bottom: 20px; }
-    .metric-item { text-align: center; flex: 1; border-right: 1px solid #eee; }
-    .metric-item:last-child { border-right: none; }
-    .cost-card { background-color: #fdf2f2; border: 1px solid #feb2b2; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-    .spec-box { background-color: #ffffff; border-left: 5px solid #6a1b9a; padding: 20px; border-radius: 4px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 15px;}
-    .prompt-box { background-color: #f4f0ff; border-left: 5px solid #6a1b9a; padding: 20px; border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 14px; white-space: pre-wrap; line-height: 1.5; color: #333; border: 1px solid #d1c4e9; }
+    
+    /* 7. Premium Floating Metric Cards */
+    .metric-row { 
+        display: flex; 
+        justify-content: space-between; 
+        gap: 15px; 
+        margin-bottom: 25px; 
+    }
+    .metric-item { 
+        background: linear-gradient(145deg, #1e1e1e, #121212) !important;
+        border: 1px solid #333 !important;
+        padding: 20px !important; 
+        border-radius: 12px !important; 
+        text-align: center !important; 
+        flex: 1 !important; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
+        transition: transform 0.2s ease, border-color 0.2s ease !important;
+    }
+    .metric-item:hover {
+        transform: translateY(-5px) !important;
+        border-color: #d4af37 !important;
+    }
+    .metric-item strong { color: #888 !important; font-size: 0.9rem !important; text-transform: uppercase !important; letter-spacing: 1px !important;}
+    .metric-item div { font-size: 1.5rem !important; color: #d4af37 !important; font-weight: bold !important; margin-top: 5px !important;}
+    
+    /* 8. Sleek Spec Box */
+    .spec-box { 
+        background-color: #1e1e1e !important; 
+        border-left: 4px solid #d4af37 !important; 
+        padding: 25px !important; 
+        border-radius: 6px !important; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important; 
+        margin-bottom: 20px !important;
+    }
+    .cost-card { 
+        background: rgba(212, 175, 55, 0.1) !important; 
+        border: 1px solid #d4af37 !important; 
+        color: #d4af37 !important; 
+        padding: 15px !important; 
+        border-radius: 8px !important; 
+        margin-bottom: 15px !important; 
+        text-align: center !important;
+        font-weight: bold !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 # --- SECURITY: MASTER PASSWORD LOCK ---
@@ -713,6 +770,7 @@ with tab3:
             
         else:
             st.error("Please enter a Roaster Name and Training Bean to generate an evaluation.")
+
 
 
 
