@@ -494,7 +494,7 @@ CALL TO ACTION
         st.code(final_script, language="text")
 
 # ==========================================
-# TAB 3: AUTO-EVALUATION PORTAL (TRUE A4 MATRIX)
+# TAB 3: AUTO-EVALUATION PORTAL (PREMIUM DIPLOMA)
 # ==========================================
 with tab3:
     st.markdown('<h2 class="section-header">🎓 Objective Auto-Evaluation Portal</h2>', unsafe_allow_html=True)
@@ -547,22 +547,23 @@ with tab3:
     st.markdown("---")
     st.info(f"**🤖 Generated AI Evaluation:** {critique}")
         
-    if st.button("🏅 Generate Formal Evaluation Certificate", use_container_width=True):
+    if st.button("🏅 Generate Official Certificate", use_container_width=True):
         if student_name and target_bean:
+            
+            # Generate a unique serial number for authenticity
+            cert_id = f"JP-{datetime.now().strftime('%y%m')}-{random.randint(1000, 9999)}"
             
             logo_b64 = get_base64_image("Jpresso Gold Transparent.png")
             if logo_b64:
-                logo_html = f'<img src="data:image/png;base64,{logo_b64}" alt="Jpresso Logo" width="180" style="margin-bottom: 5px;">'
+                logo_html = f'<img src="data:image/png;base64,{logo_b64}" alt="Jpresso Logo" width="150" style="margin-bottom: 10px;">'
             else:
-                logo_html = f'<div class="no-print" style="color:red; font-size:12px; margin-bottom:10px;">[Note: Could not find "Jpresso Gold Transparent.png" in your app folder.]</div><h1 style="color:#d4af37; margin:0;">BIG JPRESSO</h1>'
+                logo_html = f'<div class="no-print" style="color:red; font-size:12px; margin-bottom:10px;">[Note: Could not find logo.]</div><h1 style="color:#d4af37; margin:0;">BIG JPRESSO</h1>'
 
-            # --- THE EXACT TRUE A4 MATRIX CSS FIX INJECTED HERE ---
             iframe_html = f"""
             <!DOCTYPE html>
             <html>
             <head>
                 <style>
-                    /* ZERO MARGIN OVERRIDE & EXACT A4 DIMENSIONS */
                     @page {{ size: A4 portrait; margin: 0; }}
                     * {{ box-sizing: border-box; }}
                     
@@ -575,7 +576,6 @@ with tab3:
                         print-color-adjust: exact; 
                     }}
                     
-                    /* Web Preview Container */
                     .cert-container {{
                         width: 210mm !important;
                         height: 297mm !important;
@@ -587,7 +587,6 @@ with tab3:
                         overflow: hidden !important;
                     }}
                     
-                    /* Printer Target Container */
                     @media print {{
                         .no-print {{ display: none !important; }}
                         body {{ background-color: white !important; }}
@@ -597,7 +596,7 @@ with tab3:
                             max-height: 296mm !important;
                             max-width: none !important; 
                             margin: 0 !important; 
-                            padding: 10mm !important; /* Safe print margin */
+                            padding: 10mm !important; 
                             box-shadow: none !important; 
                             page-break-after: avoid; 
                             page-break-inside: avoid; 
@@ -605,33 +604,30 @@ with tab3:
                         }}
                     }}
 
-                    /* Flexible Interior Borders */
                     .border-outer {{
-                        border: 10px solid #2b1d42;
+                        border: 12px solid #341645;
                         width: 100%;
                         height: 100%;
-                        padding: 10px;
-                        box-sizing: border-box;
+                        padding: 8px;
                     }}
                     
                     .border-inner {{
-                        border: 3px solid #d4af37;
+                        border: 2px solid #DAB07B;
                         width: 100%;
                         height: 100%;
-                        padding: 20px;
+                        padding: 30px;
                         display: flex;
                         flex-direction: column;
                         align-items: center;
-                        justify-content: space-between; /* This dynamically stretches content evenly! */
+                        justify-content: space-between;
                         text-align: center;
-                        position: relative;
-                        box-sizing: border-box;
+                        background: radial-gradient(circle, rgba(218,176,123,0.03) 0%, rgba(255,255,255,0) 70%);
                     }}
                 </style>
             </head>
             <body>
                 <div class="no-print" style="margin-bottom: 15px; text-align: center;">
-                    <button onclick="window.print()" style="background-color: #d4af37; color: #111; padding: 12px 24px; font-size: 16px; border: 2px solid #b8962e; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+                    <button onclick="window.print()" style="background-color: #DAB07B; color: #111; padding: 12px 24px; font-size: 16px; border: 2px solid #b8962e; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
                         🖨️ CLICK HERE TO PRINT CERTIFICATE
                     </button>
                 </div>
@@ -642,40 +638,49 @@ with tab3:
                             
                             <div>
                                 {logo_html}
-                                <h1 style="color: #2b1d42; font-family: 'Georgia', serif; font-size: 36px; margin: 10px 0 5px 0; text-transform: uppercase; letter-spacing: 2px;">Academy Evaluation</h1>
-                                <h3 style="color: #333; font-size: 16px; letter-spacing: 4px; margin: 0; font-weight: 400;">CERTIFICATE OF ANALYSIS</h3>
+                                <h1 style="color: #341645; font-family: 'Georgia', serif; font-size: 40px; margin: 10px 0 5px 0; text-transform: uppercase; letter-spacing: 3px;">Certificate of Mastery</h1>
+                                <p style="color: #DAB07B; font-size: 14px; letter-spacing: 5px; margin: 0; font-weight: bold; text-transform: uppercase;">Big Jpresso Roastery Academy</p>
                             </div>
                             
-                            <div>
-                                <p style="font-size: 16px; color: #555; margin-bottom: 5px;">This formally certifies the technical audit of</p>
-                                <h2 style="font-size: 32px; color: #111; border-bottom: 2px solid #d4af37; display: inline-block; padding: 0 20px 5px 20px; margin: 10px 0; font-family: 'Georgia', serif;">{student_name.upper()}</h2>
-                                <p style="font-size: 16px; color: #444; margin: 10px 40px; line-height: 1.5;">has completed a formal roast evaluation protocol. The candidate operated the <strong>{machine_used}</strong>, targeting a <strong>{target_profile.split('(')[0].strip()}</strong> profile utilizing <strong>{target_bean}</strong>.</p>
+                            <div style="margin: 20px 0;">
+                                <p style="font-size: 18px; color: #555; font-style: italic; font-family: 'Georgia', serif;">This is to formally certify that</p>
+                                <h2 style="font-size: 36px; color: #111; border-bottom: 2px solid #DAB07B; display: inline-block; padding: 0 30px 10px 30px; margin: 15px 0; font-family: 'Georgia', serif;">{student_name.upper()}</h2>
+                                <p style="font-size: 16px; color: #444; margin: 10px 40px; line-height: 1.6;">
+                                    has successfully executed the formal technical roasting protocol.<br>
+                                    The candidate operated the <strong>{machine_used}</strong>, mastering a <strong>{target_profile.split('(')[0].strip()}</strong> development profile utilizing <strong>{target_bean}</strong>.
+                                </p>
                             </div>
                             
-                            <div style="width: 85%; padding: 20px; background-color: #fcfaff; border-left: 5px solid #d4af37; text-align: left; margin: 0 auto;">
-                                <p style="margin: 3px 0; font-size: 15px;"><strong>Target Profile:</strong> {target_profile}</p>
-                                <p style="margin: 3px 0; font-size: 15px;"><strong>Achieved DTR:</strong> {student_dtr}%</p>
-                                <p style="margin: 3px 0; font-size: 15px;"><strong>Calculated Grade:</strong> {gen_score} / 100</p>
-                                <p style="margin: 15px 0 5px 0; font-size: 15px; color: #2b1d42;"><strong>System Evaluation & Critique:</strong></p>
-                                <p style="font-style: italic; color: #333; margin: 0; font-size: 15px;">"{critique}"</p>
+                            <div style="width: 85%; padding: 20px; background-color: #fff; border: 1px solid #eee; border-left: 5px solid #DAB07B; text-align: left; margin: 0 auto; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px;">
+                                    <div><span style="font-size: 12px; color: #888; text-transform: uppercase;">Achieved DTR</span><br><span style="font-size: 18px; font-weight: bold; color: #341645;">{student_dtr}%</span></div>
+                                    <div><span style="font-size: 12px; color: #888; text-transform: uppercase;">Certified Grade</span><br><span style="font-size: 18px; font-weight: bold; color: #341645;">{gen_score} / 100</span></div>
+                                </div>
+                                <p style="margin: 0 0 5px 0; font-size: 13px; color: #DAB07B; font-weight: bold; text-transform: uppercase;">Official Examiner Notes:</p>
+                                <p style="font-style: italic; color: #444; margin: 0; font-size: 14px; line-height: 1.4;">"{critique}"</p>
                             </div>
                             
-                            <div style="width: 100%;">
-                                <table style="width: 100%; border-collapse: collapse;">
-                                    <tr>
-                                        <td style="width: 50%; text-align: center; vertical-align: bottom; padding: 5px;">
-                                            <p style="font-size: 16px; margin: 0 0 10px 0; color: #111;">{datetime.now().strftime('%d %B %Y')}</p>
-                                            <div style="border-top: 1px solid #999; width: 60%; margin: 0 auto;"></div>
-                                            <p style="font-size: 12px; color: #666; margin: 5px 0 0 0; text-transform: uppercase; letter-spacing: 1px;">Date of Audit</p>
-                                        </td>
-                                        <td style="width: 50%; text-align: center; vertical-align: bottom; padding: 5px;">
-                                            <p style="font-family: 'Brush Script MT', cursive; font-size: 28px; color: #111; margin: 0 0 5px 0; line-height: 1;">Jason</p>
-                                            <div style="border-top: 1px solid #999; width: 60%; margin: 0 auto;"></div>
-                                            <p style="font-size: 14px; color: #111; margin: 5px 0 0 0; font-weight: bold;">Jason</p>
-                                            <p style="font-size: 12px; color: #666; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Chief Coffee Officer</p>
-                                        </td>
-                                    </tr>
-                                </table>
+                            <div style="width: 100%; display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; padding: 0 20px;">
+                                
+                                <div style="text-align: left; width: 30%;">
+                                    <p style="margin: 0 0 3px 0; font-size: 11px; color: #777;"><strong>CERT ID:</strong> {cert_id}</p>
+                                    <p style="margin: 0; font-size: 11px; color: #777;"><strong>ISSUED:</strong> {datetime.now().strftime('%B %d, %Y')}</p>
+                                </div>
+                                
+                                <div style="width: 30%; display: flex; justify-content: center;">
+                                    <div style="width: 80px; height: 80px; border: 3px double #DAB07B; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #DAB07B; font-family: 'Georgia', serif; font-size: 10px; font-weight: bold; letter-spacing: 1px; transform: rotate(-5deg);">
+                                        <span>OFFICIAL</span>
+                                        <span style="font-size: 20px;">★</span>
+                                        <span>SEAL</span>
+                                    </div>
+                                </div>
+                                
+                                <div style="text-align: center; width: 30%;">
+                                    <div style="border-bottom: 1px solid #111; height: 40px; margin-bottom: 5px;"></div>
+                                    <p style="font-size: 15px; color: #111; margin: 0; font-weight: bold; font-family: 'Georgia', serif;">Jason</p>
+                                    <p style="font-size: 10px; color: #666; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Chief Coffee Officer</p>
+                                </div>
+                                
                             </div>
                             
                         </div>
@@ -686,14 +691,13 @@ with tab3:
             """
             
             st.markdown("---")
-            # Set Streamlit iframe height larger to accommodate the exact A4 screen scaling
-            components.html(iframe_html, height=1250, scrolling=False)
+            components.html(iframe_html, height=1300, scrolling=False)
             
             st.markdown("---")
             st.download_button(
-                label="📥 DOWNLOAD HTML CERTIFICATE (Failsafe)",
+                label="📥 DOWNLOAD HTML CERTIFICATE",
                 data=iframe_html,
-                file_name=f"Jpresso_Certificate_{student_name.replace(' ', '_')}.html",
+                file_name=f"BigJpresso_Cert_{student_name.replace(' ', '_')}.html",
                 mime="text/html"
             )
             
