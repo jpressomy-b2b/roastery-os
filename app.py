@@ -11,37 +11,28 @@ import streamlit.components.v1 as components
 # --- MUST BE FIRST ---
 st.set_page_config(page_title="Jpresso Roastery OS", layout="wide")
 
-# --- FULL STEALTH & EXACT JPRESSO BRAND CSS INJECTION ---
+# --- JPRESSO ROYAL PURPLE & GOLD UI + STEALTH CSS ---
 st.markdown("""
     <style>
-    /* 1. Nuke Header & Footer */
-    #MainMenu {visibility: hidden !important;}
-    header {visibility: hidden !important;}
-    footer {visibility: hidden !important;}
-    
-    /* 2. Target ALL possible variations of the Streamlit badges */
-    .stAppDeployButton {display:none !important;}
-    [data-testid="stStatusWidget"] {display:none !important;}
-    [data-testid="viewerBadge"] {display:none !important;}
-    div[class^="viewerBadge"] {display:none !important;}
-    div[class^="styles_viewerBadge"] {display:none !important;}
-    div[class^="st-emotion-cache-"] > a[href*="streamlit.io"] {display:none !important;}
-    a[href*="streamlit.io"] {display:none !important;}
-    
-    /* 3. EXACT BRAND BACKGROUND (Royal Purple) */
-    html, body, [data-testid="stAppViewContainer"], .main, .stApp {
-        background-color: rgb(52, 22, 69) !important; 
+    /* 1. Nuke Header, Footer, and Streamlit Badges */
+    #MainMenu, header, footer, .stAppDeployButton, [data-testid="stStatusWidget"], [data-testid="viewerBadge"], div[class^="viewerBadge"], a[href*="streamlit.io"] {
+        display: none !important;
     }
     
-    /* 4. Force all base text to be light/snow white */
+    /* 2. EXACT JPRESSO ROYAL PURPLE BACKGROUND */
+    html, body, [data-testid="stAppViewContainer"], .main, .stApp {
+        background-color: #341645 !important; 
+    }
+    
+    /* 3. Force all base text to be light/snow white */
     h1, h2, h3, h4, h5, p, span, label, div {
         color: #fcfaff !important; 
     }
 
-    /* 5. Sleek typography and spacing using JPRESSO GOLD */
+    /* 4. JPRESSO GOLD Typography and Spacing */
     .section-header { 
-        color: rgb(218, 176, 123) !important; 
-        border-bottom: 2px solid rgb(218, 176, 123) !important; 
+        color: #DAB07B !important; 
+        border-bottom: 2px solid #DAB07B !important; 
         padding-bottom: 10px !important; 
         margin-bottom: 25px !important; 
         font-weight: 300 !important; 
@@ -49,9 +40,16 @@ st.markdown("""
         text-transform: uppercase !important;
     }
     
+    /* 5. Custom Styling for Input Boxes to match Purple Theme */
+    .stTextInput input, .stNumberInput input, .stSelectbox div[data-baseweb="select"], .stTextArea textarea, .stMultiSelect div[data-baseweb="select"] {
+        background-color: #250f31 !important;
+        color: #fcfaff !important;
+        border: 1px solid rgba(218, 176, 123, 0.4) !important;
+    }
+    
     /* 6. v5.8 LAYOUT LOCK */
     [data-testid="column"]:nth-of-type(2) {
-        border-left: 2px solid rgb(218, 176, 123) !important;
+        border-left: 2px solid #DAB07B !important;
         padding-left: 40px !important;
         padding-top: 0px !important; 
         display: flex;
@@ -67,8 +65,8 @@ st.markdown("""
         margin-bottom: 25px; 
     }
     .metric-item { 
-        background: rgba(255, 255, 255, 0.05) !important; /* Elegant glassy transparency over the purple */
-        border: 1px solid rgba(218, 176, 123, 0.3) !important; /* Subtle Gold Border */
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(218, 176, 123, 0.3) !important; 
         padding: 20px !important; 
         border-radius: 12px !important; 
         text-align: center !important; 
@@ -78,24 +76,24 @@ st.markdown("""
     }
     .metric-item:hover {
         transform: translateY(-5px) !important;
-        border-color: rgb(218, 176, 123) !important; /* Solid Gold on Hover */
+        border-color: #DAB07B !important; 
         background: rgba(218, 176, 123, 0.08) !important;
     }
-    .metric-item strong { color: rgb(218, 176, 123) !important; font-size: 0.9rem !important; text-transform: uppercase !important; letter-spacing: 1px !important;}
+    .metric-item strong { color: #DAB07B !important; font-size: 0.9rem !important; text-transform: uppercase !important; letter-spacing: 1px !important;}
     .metric-item div { font-size: 1.6rem !important; color: #fcfaff !important; font-weight: bold !important; margin-top: 5px !important;}
     
-    /* 8. Sleek Spec Box */
+    /* 8. Sleek Spec Box & Cost Card */
     .spec-box { 
-        background-color: rgba(0, 0, 0, 0.2) !important; /* Creates a darker inset box against the purple */
-        border-left: 5px solid rgb(218, 176, 123) !important; 
+        background-color: rgba(0, 0, 0, 0.2) !important; 
+        border-left: 5px solid #DAB07B !important; 
         padding: 25px !important; 
         border-radius: 6px !important; 
         margin-bottom: 20px !important;
     }
     .cost-card { 
         background: rgba(218, 176, 123, 0.1) !important; 
-        border: 1px solid rgb(218, 176, 123) !important; 
-        color: rgb(218, 176, 123) !important; 
+        border: 1px solid #DAB07B !important; 
+        color: #DAB07B !important; 
         padding: 15px !important; 
         border-radius: 8px !important; 
         margin-bottom: 15px !important; 
@@ -104,10 +102,11 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
+
 # --- SECURITY: MASTER PASSWORD LOCK ---
 def check_password():
     if "password_correct" not in st.session_state:
-        st.title("🔐 Jpresso Intelligence OS")
+        st.markdown('<h1 style="color:#DAB07B;">🔐 Jpresso Intelligence OS</h1>', unsafe_allow_html=True)
         st.text_input("Enter Master Password", type="password", key="password_input")
         if st.button("Access System"):
             if st.session_state["password_input"] == "jpresso2026":
@@ -123,7 +122,6 @@ if not check_password():
 
 # --- HELPER: BASE64 IMAGE ENCODER ---
 def get_base64_image(image_path):
-    """Safely loads a local image and converts it to a web-ready base64 string."""
     try:
         if os.path.exists(image_path):
             with open(image_path, "rb") as img_file:
@@ -132,87 +130,8 @@ def get_base64_image(image_path):
         pass
     return None
 
-# --- v184.0 ULTIMATE UI/UX UPGRADE CSS ---
-st.markdown("""
-    <style>
-    /* 1. FORCE DARK ESPRESSO BACKGROUND ON ALL LAYERS */
-    html, body, [data-testid="stAppViewContainer"], .main, .stApp {
-        background-color: #121212 !important;
-    }
-    
-    /* 2. Force all text to be light */
-    h1, h2, h3, h4, h5, p, span, label, div {
-        color: #f5f5f5 !important;
-    }
-
-    /* 3. Sleek typography and spacing */
-    .section-header { 
-        color: #d4af37 !important; 
-        border-bottom: 1px solid #333; 
-        padding-bottom: 10px; 
-        margin-bottom: 25px; 
-        font-weight: 300; 
-        letter-spacing: 1px;
-        text-transform: uppercase;
-    }
-    
-    /* 4. v5.8 LAYOUT LOCK */
-    [data-testid="column"]:nth-of-type(2) {
-        border-left: 1px solid #333;
-        padding-left: 40px !important;
-        padding-top: 0px !important; 
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start !important; 
-    }
-    
-    /* 5. Premium Floating Metric Cards */
-    .metric-row { 
-        display: flex; 
-        justify-content: space-between; 
-        gap: 15px; 
-        margin-bottom: 25px; 
-    }
-    .metric-item { 
-        background: linear-gradient(145deg, #1e1e1e, #121212) !important;
-        border: 1px solid #333 !important;
-        padding: 20px !important; 
-        border-radius: 12px !important; 
-        text-align: center !important; 
-        flex: 1 !important; 
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
-        transition: transform 0.2s ease, border-color 0.2s ease !important;
-    }
-    .metric-item:hover {
-        transform: translateY(-5px) !important;
-        border-color: #d4af37 !important;
-    }
-    .metric-item strong { color: #888 !important; font-size: 0.9rem !important; text-transform: uppercase !important; letter-spacing: 1px !important;}
-    .metric-item div { font-size: 1.5rem !important; color: #d4af37 !important; font-weight: bold !important; margin-top: 5px !important;}
-    
-    /* 6. Sleek Spec Box */
-    .spec-box { 
-        background-color: #1e1e1e !important; 
-        border-left: 4px solid #d4af37 !important; 
-        padding: 25px !important; 
-        border-radius: 6px !important; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important; 
-        margin-bottom: 20px !important;
-    }
-    .cost-card { 
-        background: rgba(212, 175, 55, 0.1) !important; 
-        border: 1px solid #d4af37 !important; 
-        color: #d4af37 !important; 
-        padding: 15px !important; 
-        border-radius: 8px !important; 
-        margin-bottom: 15px !important; 
-        text-align: center !important;
-        font-weight: bold !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-st.title("🔥 Jpresso Roastery Intelligence v181.0")
-st.caption("The True Master Merge: Complete Features + A4 Scaling Lock + Password")
+st.title("🔥 Jpresso Roastery Intelligence v187.0")
+st.caption("The Royal Edition: Purple & Gold Engine + Guaranteed Print Scaling")
 
 # --- PERSISTENT STATE LOCK ---
 if 'batch_history' not in st.session_state: st.session_state.batch_history = []
@@ -393,7 +312,7 @@ with tab1:
 
         if st.session_state.last_analysis:
             ana = st.session_state.last_analysis
-            metric_html = f'<div class="metric-row"><div class="metric-item"><strong>DTR %</strong><br>{ana["dtr"]:.1f}%</div><div class="metric-item"><strong>Weight Loss</strong><br>{ana["w_loss"]:.1f}%</div><div class="metric-item"><strong>True Cost</strong><br>{ana["cost"]:.2f}</div></div>'
+            metric_html = f'<div class="metric-row"><div class="metric-item"><strong>DTR %</strong><br><div>{ana["dtr"]:.1f}%</div></div><div class="metric-item"><strong>Weight Loss</strong><br><div>{ana["w_loss"]:.1f}%</div></div><div class="metric-item"><strong>True Cost</strong><br><div>{ana["cost"]:.2f}</div></div></div>'
             st.markdown(metric_html, unsafe_allow_html=True)
             
             recipe_html = f'<p><strong>Recipe:</strong> {ana["recipe"]}</p>' if ana.get('recipe') else ''
@@ -403,19 +322,19 @@ with tab1:
             
             spec_html = (
                 f'<div class="spec-box">'
-                f'<h4><strong>🌟 JPRESSO PRODUCTION SPEC</strong></h4>'
+                f'<h4 style="color:#DAB07B;"><strong>🌟 JPRESSO PRODUCTION SPEC</strong></h4>'
                 f'<p><strong>Batch ID:</strong> {ana["batch_id"]} | <strong>Operator:</strong> {ana["operator"]}</p>'
                 f'<p><strong>Environment:</strong> {ana["env"]}</p>'
-                f'<hr style="margin: 10px 0; border: 1px solid #eee;">'
+                f'<hr style="margin: 10px 0; border: 1px solid rgba(218,176,123,0.3);">'
                 f'<p><strong>SKU / Bean:</strong> {ana["sku"]} ({ana["grade"]})</p>'
                 f'<p><strong>Roast Profile:</strong> {ana["roast_level"]}</p>'
                 f'{recipe_html}'
-                f'<hr style="margin: 10px 0; border: 1px solid #eee;">'
+                f'<hr style="margin: 10px 0; border: 1px solid rgba(218,176,123,0.3);">'
                 f'<p><strong>Green Input:</strong> {ana["g_weight"]} kg | <strong>Output:</strong> {ana["r_weight"]} kg</p>'
                 f'<p><strong>Agtron:</strong> {ana["agtron"]} | <strong>QA Score:</strong> {score_display}</p>'
                 f'<p><strong>Sensory Map:</strong> {flavors_str}</p>'
                 f'{notes_html}'
-                f'<hr style="margin: 10px 0; border: 1px solid #eee;">'
+                f'<hr style="margin: 10px 0; border: 1px solid rgba(218,176,123,0.3);">'
                 f'<p><strong>Executive Summary:</strong> {ana["batch_id"]} is a {ana["roast_level"]} roast of {ana["sku"]}. It achieved a DTR of {ana["dtr"]:.1f}% with a {ana["w_loss"]:.1f}% weight loss, resulting in a landed cost of {ana["cost"]:.2f}/kg.</p>'
                 f'</div>'
             )
@@ -770,11 +689,3 @@ with tab3:
             
         else:
             st.error("Please enter a Roaster Name and Training Bean to generate an evaluation.")
-
-
-
-
-
-
-
-
