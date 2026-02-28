@@ -248,11 +248,22 @@ with tab1:
         with cl_t[1]: m_fc = st.number_input("FC Start (m)", key="m_f")
         with cl_t[2]: m_drop = st.number_input("Drop Time (m)", key="m_v")
         
-        agtron = st.number_input("Agtron Score (QA)", value=0)
+       agtron = st.number_input("Agtron Score (QA)", value=0)
         
         cupping_score = 0.0
-        st.markdown("##### ☕ Universal Digital Cupping Form")
-        with st.expander("📝 Enter 10-Point Evaluation", expanded=True):
+        st.markdown("##### ☕ Universal Digital Cupping Form (Optional)")
+        
+        with st.expander("📖 View SCA Cupping Guidelines"):
+            st.info("""
+            **SCA Scoring Protocol Quick Guide:**
+            * **Quality Attributes:** (Aroma, Flavor, Aftertaste, Acidity, Body, Balance, Overall) are scored from **6.0 (Good)** to **9.75 (Outstanding)**.
+            * **Multiplier Attributes:** (Uniformity, Clean Cup, Sweetness) are evaluated across 5 separate cups. Score **2 points** for every cup that passes (Max 10).
+            * **Defects:** Subtract 2 points for a *Taint* (noticeable off-flavor) or 4 points for a *Fault* (overwhelming bad flavor) per cup.
+            * **Specialty Grade:** A final calculated score of **80.0 or above** is classified as Specialty Coffee.
+            """)
+
+        # I changed expanded=False so it stays neatly closed until you actually need it!
+        with st.expander("📝 Enter 10-Point Evaluation", expanded=False):
             sc_col1, sc_col2 = st.columns(2)
             with sc_col1:
                 s_frag = st.number_input("Fragrance/Aroma", min_value=0.0, max_value=10.0, value=0.0, step=0.25)
@@ -262,15 +273,16 @@ with tab1:
                 s_body = st.number_input("Body", min_value=0.0, max_value=10.0, value=0.0, step=0.25)
             with sc_col2:
                 s_bal = st.number_input("Balance", min_value=0.0, max_value=10.0, value=0.0, step=0.25)
-                s_unif = st.number_input("Uniformity (2pts/cup)", min_value=0, max_value=10, value=0, step=2)
-                s_clean = st.number_input("Clean Cup (2pts/cup)", min_value=0, max_value=10, value=0, step=2)
-                s_sweet = st.number_input("Sweetness (2pts/cup)", min_value=0, max_value=10, value=0, step=2)
+                s_unif = st.number_input("Uniformity (2pts/cup)", min_value=0, max_value=10, value=10, step=2) # Defaulted to 10 for ease of use
+                s_clean = st.number_input("Clean Cup (2pts/cup)", min_value=0, max_value=10, value=10, step=2) # Defaulted to 10
+                s_sweet = st.number_input("Sweetness (2pts/cup)", min_value=0, max_value=10, value=10, step=2) # Defaulted to 10
                 s_over = st.number_input("Overall", min_value=0.0, max_value=10.0, value=0.0, step=0.25)
                 
             s_defect = st.number_input("Defect Penalty", min_value=0, max_value=20, value=0, step=2)
             eval_scores = [s_frag, s_flav, s_after, s_acid, s_body, s_bal, s_unif, s_clean, s_sweet, s_over]
             
-            if sum(eval_scores) > 0:
+            # Only calculate if they actually entered flavor scores
+            if sum([s_frag, s_flav, s_after, s_acid, s_body, s_bal, s_over]) > 0:
                 cupping_score = sum(eval_scores) - s_defect
                 st.success(f"**Calculated Final Score: {cupping_score:.2f} SCA**")
                 
@@ -689,3 +701,4 @@ with tab3:
             
         else:
             st.error("Please enter a Roaster Name and Training Bean to generate an evaluation.")
+
