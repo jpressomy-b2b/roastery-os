@@ -75,14 +75,20 @@ def get_base64_image(image_path):
         pass
     return None
 
-# --- v183.0 PREMIUM UI/UX UPGRADE CSS ---
+# --- v184.0 ULTIMATE UI/UX UPGRADE CSS ---
 st.markdown("""
     <style>
-    /* FORCE DARK ESPRESSO BACKGROUND & LIGHT TEXT */
-    .stApp { background-color: #121212 !important; }
-    h1, h2, h3, h4, h5, h6, p, label, span { color: #f5f5f5 !important; }
+    /* 1. FORCE DARK ESPRESSO BACKGROUND ON ALL LAYERS */
+    html, body, [data-testid="stAppViewContainer"], .main, .stApp {
+        background-color: #121212 !important;
+    }
     
-    /* Sleek typography and spacing */
+    /* 2. Force all text to be light */
+    h1, h2, h3, h4, h5, p, span, label, div {
+        color: #f5f5f5 !important;
+    }
+
+    /* 3. Sleek typography and spacing */
     .section-header { 
         color: #d4af37 !important; 
         border-bottom: 1px solid #333; 
@@ -93,7 +99,7 @@ st.markdown("""
         text-transform: uppercase;
     }
     
-    /* v5.8 LAYOUT LOCK */
+    /* 4. v5.8 LAYOUT LOCK */
     [data-testid="column"]:nth-of-type(2) {
         border-left: 1px solid #333;
         padding-left: 40px !important;
@@ -103,7 +109,7 @@ st.markdown("""
         justify-content: flex-start !important; 
     }
     
-    /* Premium Floating Metric Cards */
+    /* 5. Premium Floating Metric Cards */
     .metric-row { 
         display: flex; 
         justify-content: space-between; 
@@ -113,38 +119,38 @@ st.markdown("""
     .metric-item { 
         background: linear-gradient(145deg, #1e1e1e, #121212) !important;
         border: 1px solid #333 !important;
-        padding: 20px; 
-        border-radius: 12px; 
-        text-align: center; 
-        flex: 1; 
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        transition: transform 0.2s ease, border-color 0.2s ease;
+        padding: 20px !important; 
+        border-radius: 12px !important; 
+        text-align: center !important; 
+        flex: 1 !important; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
+        transition: transform 0.2s ease, border-color 0.2s ease !important;
     }
     .metric-item:hover {
-        transform: translateY(-5px);
+        transform: translateY(-5px) !important;
         border-color: #d4af37 !important;
     }
-    .metric-item strong { color: #888 !important; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
-    .metric-item { font-size: 1.5rem !important; color: #d4af37 !important; font-weight: bold; margin-top: 5px;}
+    .metric-item strong { color: #888 !important; font-size: 0.9rem !important; text-transform: uppercase !important; letter-spacing: 1px !important;}
+    .metric-item div { font-size: 1.5rem !important; color: #d4af37 !important; font-weight: bold !important; margin-top: 5px !important;}
     
-    /* Sleek Spec Box */
+    /* 6. Sleek Spec Box */
     .spec-box { 
         background-color: #1e1e1e !important; 
         border-left: 4px solid #d4af37 !important; 
-        padding: 25px; 
-        border-radius: 6px; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.5); 
-        margin-bottom: 20px;
+        padding: 25px !important; 
+        border-radius: 6px !important; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important; 
+        margin-bottom: 20px !important;
     }
     .cost-card { 
         background: rgba(212, 175, 55, 0.1) !important; 
         border: 1px solid #d4af37 !important; 
         color: #d4af37 !important; 
-        padding: 15px; 
-        border-radius: 8px; 
-        margin-bottom: 15px; 
-        text-align: center;
-        font-weight: bold;
+        padding: 15px !important; 
+        border-radius: 8px !important; 
+        margin-bottom: 15px !important; 
+        text-align: center !important;
+        font-weight: bold !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -707,6 +713,7 @@ with tab3:
             
         else:
             st.error("Please enter a Roaster Name and Training Bean to generate an evaluation.")
+
 
 
 
